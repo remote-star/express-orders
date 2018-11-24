@@ -150,6 +150,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { Good, Order as OrderInterface } from './interfaces'
 import Order from './Order.vue'
 import XLSX from 'xlsx'
+import exportExcel from './exporter'
 
 @Component({
   components: {
@@ -225,14 +226,7 @@ export default class App extends Vue {
   }
 
   private exportOrders() {
-    const wb = XLSX.utils.book_new()
-    var ws_data = [
-      [ "S", "h", "e", "e", "t", "J", "S" ],
-      [  1 ,  2 ,  3 ,  4 ,  5 ]
-    ];
-    var ws = XLSX.utils.aoa_to_sheet(ws_data);
-    XLSX.utils.book_append_sheet(wb, ws, 'whatever');
-    XLSX.writeFile(wb, 'out.xlsx')
+    exportExcel(this.selectedOrders)
   }
 
   private created() {
@@ -257,7 +251,6 @@ export default class App extends Vue {
   color: #2c3e50;
   padding 20px
   background #deeaef
-  height 100%
 
 header
   display flex
@@ -280,7 +273,7 @@ header
   box-sizing border-box
 
 html, body
-  height 100%
+  min-height 100%
   padding 0
   margin 0
   min-width 800px

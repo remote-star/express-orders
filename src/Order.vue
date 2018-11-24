@@ -238,7 +238,8 @@
           保存
         </el-button>
         <el-button
-          size="mini">
+          size="mini"
+          @click="dialogVisible = false">
           取消
         </el-button>
       </el-form-item>
