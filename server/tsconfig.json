@@ -5,7 +5,7 @@
     "importHelpers": true,
     "moduleResolution": "node",
     "baseUrl": ".",
-    "outDir": "../dist",
+    "outDir": "../built",
     "lib": [
       "esnext",
       "dom",
@@ -14,8 +14,8 @@
     ]
   },
   "include": [
-    "./**/*.ts",
-    "../key.json",
+    "*.ts",
+    "declalre.d.ts"
   ],
   "exclude": [
     "node_modules"

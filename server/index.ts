@@ -1,16 +1,19 @@
 import * as Koa from 'koa'
 import * as KoaCompress from 'koa-compress'
 import * as KoaStatic from 'koa-static'
-
+import * as zlib from 'zlib'
+import * as historyApiFallback from 'koa2-connect-history-api-fallback'
 
 const app = new Koa()
 
-
-app.use(KoaCompress({
-  filter: (content_type: string) => {
-    return /text/i.test(content_type)
-  },
-  threshold: 2048,
-  flush: require('zlib').Z_SYNC_FLUSH
-}))
-app.listen(3000)
+app
+  .use(historyApiFallback({ whiteList: ['/api'] }))
+  .use(KoaCompress({
+    filter: (contentType: string) => {
+      return /(text)|(javascript)/i.test(contentType)
+    },
+    threshold: 2048,
+    flush: zlib.Z_SYNC_FLUSH
+  }))
+  .use(KoaStatic('../dist'))
+app.listen(1106)

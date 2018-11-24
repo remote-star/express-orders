@@ -17,6 +17,7 @@
     "koa": "^2.6.2",
     "koa-compress": "^3.0.0",
     "koa-static": "^5.0.0",
+    "koa2-connect-history-api-fallback": "^0.0.6",
     "moment": "^2.22.2",
     "vue": "^2.5.17",
     "vue-class-component": "^6.0.0",
