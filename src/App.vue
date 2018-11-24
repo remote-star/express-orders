@@ -251,6 +251,7 @@ export default class App extends Vue {
   color: #2c3e50;
   padding 20px
   background #deeaef
+  min-height 100%
 
 header
   display flex
@@ -273,13 +274,8 @@ header
   box-sizing border-box
 
 html, body
+  height 100%
+  min-width 800px
   padding 0
   margin 0
-
-html
-  min-width 800px
-  min-height 100%
-
-body
-  height 100%
 </style>
