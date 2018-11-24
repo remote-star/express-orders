@@ -273,8 +273,13 @@ header
   box-sizing border-box
 
 html, body
-  min-height 100%
   padding 0
   margin 0
+
+html
   min-width 800px
+  min-height 100%
+
+body
+  height 100%
 </style>
