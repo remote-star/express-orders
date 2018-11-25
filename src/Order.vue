@@ -82,6 +82,7 @@
               <el-option
                 label="顺丰标快"
                 value="顺丰标快">
+              </el-option>
               <el-option
                 label="顺丰特惠"
                 value="顺丰特惠">
@@ -309,7 +310,7 @@ export default class App extends Vue {
     if (!this.form.originalText) {
       return
     }
-    let segments = this.form.originalText!.split(/[\s，。、：,.:]+/).filter(v => v)
+    let segments = this.form.originalText!.replace(/(\d{11})/, ' $1 ').split(/[\s，。、：,.:]+/).filter(v => v)
 
     // 识别单号
     const idMather = segments[0].match(/\d+/)
@@ -367,7 +368,7 @@ export default class App extends Vue {
         if (receiverInfoSegment.length > 8) {
           this.form.receiverAddress = receiverInfoSegment
         } else {
-          this.form.receiverName = receiverInfoSegment
+          this.form.receiverName = receiverInfoSegment.replace('收', '')
         }
       }
     }
