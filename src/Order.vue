@@ -16,6 +16,7 @@
         }">
         <el-input
           type="textarea"
+          @keyup.enter.native="recognize"
           v-model="form.originalText"
           size="small"
           rows="4">
@@ -305,7 +306,7 @@ export default class App extends Vue {
     if (!this.form.originalText) {
       return
     }
-    let segments = this.form.originalText!.split(/[\s，。、：,.:]+/)
+    let segments = this.form.originalText!.split(/[\s，。、：,.:]+/).filter(v => v)
 
     // 识别单号
     const idMather = segments[0].match(/\d+/)
@@ -325,9 +326,11 @@ export default class App extends Vue {
         }
 
         if (segment.indexOf('陆运') >= 0) {
-          this.form.expressType = '顺丰隔日'
+          this.form.expressType = '顺丰特惠'
+        } else if (segment.indexOf('普运') >= 0) {
+          this.form.expressType = '物流普运'
         } else {
-          this.form.expressType = '顺丰次日'
+          this.form.expressType = '顺丰标快'
         }
         segments.splice(index, 1)
       }
@@ -425,7 +428,7 @@ export default class App extends Vue {
     return {
       id: 1,
       payType: '到付现结',
-      expressType: '顺丰次日',
+      expressType: '顺丰标快',
       receiverName: '',
       receiverTelephone: '',
       receiverAddress: '',

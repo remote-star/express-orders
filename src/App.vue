@@ -56,7 +56,6 @@
             border
             size="mini">
             <el-table-column
-              width="130"
               prop="name">
             </el-table-column>
             <el-table-column

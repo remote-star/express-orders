@@ -9,7 +9,7 @@ export interface Order {
   originalText?: string
   id: number
   payType: '到付现结' | '寄付现结'
-  expressType: '顺丰次日' | '顺丰隔日'
+  expressType: '顺丰标快' | '顺丰特惠' | '物流普运'
   receiverName: string
   receiverTelephone: string
   receiverAddress: string
