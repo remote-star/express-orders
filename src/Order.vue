@@ -80,12 +80,15 @@
               size="small"
               placeholder="业务类型">
               <el-option
-                label="顺丰次日"
-                value="顺丰次日">
+                label="顺丰标快"
+                value="顺丰标快">
+              <el-option
+                label="顺丰特惠"
+                value="顺丰特惠">
               </el-option>
               <el-option
-                label="顺丰隔日"
-                value="顺丰隔日">
+                label="物流普运"
+                value="物流普运">
               </el-option>
             </el-select>
           </el-form-item>
