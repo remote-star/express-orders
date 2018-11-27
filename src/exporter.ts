@@ -43,9 +43,12 @@ export default (orders: Order[]) => {
           pre = str + ' '
         }
 
-        let goodText = good.name + good.size
+        let goodText = good.name + (good.size || '')
         if (good.amount > 1) {
           goodText += '/' + good.amount
+        }
+        if (good.specialStatus) {
+          goodText += '(' + good.specialStatus + ')'
         }
 
         return pre + goodText

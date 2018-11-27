@@ -2,6 +2,7 @@ export interface Good {
   name: string
   size?: string
   amount: number
+  specialStatus?: string
 }
 
 export interface Order {

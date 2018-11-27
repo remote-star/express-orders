@@ -169,7 +169,7 @@
       >
         <el-row
           :gutter="8">
-          <el-col :span="12">
+          <el-col :span="10">
             <el-form-item
               :label="'商品' + (form.goods.length > 1 ? index : '')"
               :prop="'goods.' + index + '.name'"
@@ -186,7 +186,7 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="6">
+          <el-col :span="4">
             <el-form-item
               label-width="0">
               <el-input
@@ -197,7 +197,7 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="5">
+          <el-col :span="3">
             <el-form-item
               label-width="0"
               :prop="'goods.' + index + '.amount'">
@@ -207,6 +207,18 @@
                 size="small"
                 placeholder="数量"
                 v-model="good.amount">
+              </el-input>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="6">
+            <el-form-item
+              label-width="0"
+              :prop="'goods.' + index + '.amount'">
+              <el-input
+                v-model="good.specialStatus"
+                size="small"
+                placeholder="标记">
               </el-input>
             </el-form-item>
           </el-col>
@@ -385,13 +397,20 @@ export default class App extends Vue {
         amount: 1
       }
       let text = goodText
-      let queue = false
+      // let queue = false
 
       // 排单检查
-      if (goodText.includes('(排单)') || goodText.includes('（排单）')) {
-        queue = true
-        text = text.substr(0, text.length - 4)
+      // if (goodText.includes('(排单)') || goodText.includes('（排单）')) {
+      //   queue = true
+      //   text = text.substr(0, text.length - 4)
+      // }
+
+      const specialStatusMatcher = goodText.match(/[\(（](.+)[\)）]/)
+      if (specialStatusMatcher) {
+        good.specialStatus = specialStatusMatcher[1]
+        text = goodText.replace(/[\(（].+[\)）]/, '')
       }
+
 
       // 提取数量
       const sizeAndAmount = text.split('/')
@@ -419,9 +438,9 @@ export default class App extends Vue {
       //   text = text.substr(good.name.length)
       // }
       good.name = text || goods[goods.length - 1].name
-      if (queue) {
-        good.name += '（排单）'
-      }
+      // if (queue) {
+      //   good.name += '（排单）'
+      // }
 
       goods.push(good)
     }
