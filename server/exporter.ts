@@ -4,7 +4,7 @@ import * as XLSX from 'xlsx'
 
 export default (orders: Order[], filename: string) => {
 
-  const workbook = XLSX.readFile('/Users/zhaozhe/Documents/new-tem.xls')
+  const workbook = XLSX.readFile('../public/template.xls')
   const sheet = workbook.Sheets.填写模板
 
   orders.forEach((order, index) => {
