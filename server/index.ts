@@ -5,7 +5,6 @@ import * as zlib from 'zlib'
 import * as historyApiFallback from 'koa2-connect-history-api-fallback'
 import * as Router from 'koa-router'
 import * as BodyParser from 'koa-bodyparser'
-import * as send from 'koa-send'
 import * as moment from 'moment'
 
 import exportExcel from './exporter'
@@ -21,12 +20,12 @@ router.post('/api/export', async (ctx, next) => {
 
 app
   .use(historyApiFallback({ whiteList: ['/api'] }))
-  .use(BodyParser({
-    formLimit: '10mb',
-    jsonLimit: '10mb'
-  }))
-  .use(router.routes())
-  .use(router.allowedMethods())
+  // .use(BodyParser({
+  //   formLimit: '10mb',
+  //   jsonLimit: '10mb'
+  // }))
+  // .use(router.routes())
+  // .use(router.allowedMethods())
   .use(KoaCompress({
     filter: (contentType: string) => {
       return /(text)|(javascript)/i.test(contentType)
