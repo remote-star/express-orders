@@ -19,7 +19,6 @@ router.post('/api/export', async (ctx, next) => {
 })
 
 app
-  .use(historyApiFallback({ whiteList: ['/api'] }))
   // .use(BodyParser({
   //   formLimit: '10mb',
   //   jsonLimit: '10mb'
@@ -34,4 +33,5 @@ app
     flush: zlib.Z_SYNC_FLUSH
   }))
   .use(KoaStatic('../dist'))
+  .use(historyApiFallback({ whiteList: ['/api'] }))
 app.listen(1106)
