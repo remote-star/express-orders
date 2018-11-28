@@ -266,7 +266,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { Good, Order } from './interfaces'
+import { Good, Order } from '../interfaces'
 import moment from 'moment'
 
 @Component

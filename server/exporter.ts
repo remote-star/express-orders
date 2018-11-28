@@ -1,11 +1,11 @@
-import { Order } from './interfaces'
-import XLSX from 'xlsx'
-import { sheet } from './template'
-import moment from 'moment'
+import { Order } from '../interfaces'
+import * as XLSX from 'xlsx'
+// import { sheet } from './template'
 
-export default (orders: Order[]) => {
+export default (orders: Order[], filename: string) => {
 
-  const wb = XLSX.utils.book_new()
+  const workbook = XLSX.readFile('/Users/zhaozhe/Documents/new-tem.xls')
+  const sheet = workbook.Sheets.填写模板
 
   orders.forEach((order, index) => {
     sheet[`F${index + 3}`] = {
@@ -71,6 +71,6 @@ export default (orders: Order[]) => {
 
   sheet['!ref'] = `A1:AW${orders.length + 2}`
 
-  XLSX.utils.book_append_sheet(wb, sheet, '填写模板')
-  XLSX.writeFile(wb, `${moment().format('YYYY年MM月DD日寄件单')}.xls`)
+  // XLSX.utils.book_append_sheet(wb, sheet, '填写模板')
+  XLSX.writeFile(workbook, filename)
 }

@@ -146,10 +146,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { Good, Order as OrderInterface } from './interfaces'
+import { Good, Order as OrderInterface } from '../interfaces'
 import Order from './Order.vue'
 import XLSX from 'xlsx'
-import exportExcel from './exporter'
 
 @Component({
   components: {
@@ -224,8 +223,35 @@ export default class App extends Vue {
     this.selectedOrders = rows
   }
 
-  private exportOrders() {
-    exportExcel(this.selectedOrders)
+  private async exportOrders() {
+    const myHeaders = new Headers()
+    myHeaders.append('Content-Type', 'application/json')
+    const result = await fetch('/api/export', {
+      method: 'POST',
+      body: JSON.stringify({
+        orders: this.selectedOrders
+      }),
+      headers: myHeaders
+    })
+    if (result) {
+      const fileName = await result.text()
+
+    //   const h = this.$createElement;
+    //   (this as any).$msgbox({
+    //     title: '消息',
+    //     message: h('a', {
+    //       attrs: {
+    //         href: location.origin + '/' + fileName
+    //       }
+    //     }, [
+    //       location.origin + '/' + fileName
+    //     ]),
+    //     confirmButtonText: '确定',
+    //     cancelButtonText: '取消',
+    //   })
+      window.open(location.origin + '/' + fileName)
+    }
+
   }
 
   private created() {
