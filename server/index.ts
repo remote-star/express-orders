@@ -15,7 +15,7 @@ const router = new Router()
 
 router.post('/api/export', async (ctx, next) => {
   const fileName = `${moment().format('YYYY年MM月DD日寄件单')}.xls`
-  exportExcel(ctx.request.body.orders, '../public/' + fileName)
+  exportExcel(ctx.request.body.orders, '../dist/' + fileName)
   ctx.body = fileName
 })
 
