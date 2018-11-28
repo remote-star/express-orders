@@ -20,13 +20,13 @@ router.post('/api/export', async (ctx, next) => {
 })
 
 app
+  .use(historyApiFallback({ whiteList: ['/api'] }))
   .use(BodyParser({
     formLimit: '10mb',
     jsonLimit: '10mb'
   }))
   .use(router.routes())
   .use(router.allowedMethods())
-  .use(historyApiFallback({ whiteList: ['/api'] }))
   .use(KoaCompress({
     filter: (contentType: string) => {
       return /(text)|(javascript)/i.test(contentType)
