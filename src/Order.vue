@@ -282,8 +282,7 @@ export default class App extends Vue {
       { required: true, message: '请输入收件人姓名', trigger: 'change' }
     ],
     receiverTelephone: [
-      { required: true, message: '请输入收件人电话', trigger: 'change' },
-      { min: 11, max: 11, message: '请输入11位电话号码', trigger: 'blur' }
+      { required: true, message: '请输入收件人电话', trigger: 'change' }
     ],
     receiverAddress: [
       { required: true, message: '请输入收件人地址', trigger: 'change' }
@@ -367,7 +366,7 @@ export default class App extends Vue {
 
     // 判断是否存在发货人信息
     segments.forEach((segment, index) => {
-      const keywords = ['发货', '发件', '寄货', '寄件']
+      const keywords = ['发货', '发件', '寄货', '寄件', '代发']
       if (keywords.some(keyword => segment.indexOf(keyword) >= 0)) {
         const senderInfoSegments = segments.splice(index)
         for (const senderInfoSegment of senderInfoSegments) {
