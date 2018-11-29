@@ -59,10 +59,15 @@
               prop="name">
             </el-table-column>
             <el-table-column
+              width="40"
               prop="size">
             </el-table-column>
             <el-table-column
+              width="40"
               :formatter="row => row.amount + '件'">
+            </el-table-column>
+            <el-table-column
+              prop="specialStatus">
             </el-table-column>
           </el-table>
         </template>

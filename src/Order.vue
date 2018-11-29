@@ -218,7 +218,7 @@
               <el-input
                 v-model="good.specialStatus"
                 size="small"
-                placeholder="标记">
+                placeholder="备注">
               </el-input>
             </el-form-item>
           </el-col>
@@ -322,7 +322,20 @@ export default class App extends Vue {
     if (!this.form.originalText) {
       return
     }
-    let segments = this.form.originalText!.replace(/(\d{11})/, ' $1 ').split(/[\s，。、：,.:]+/).filter(v => v)
+
+    let preHandledStr = this.form.originalText!
+      .replace(/(\d{11})/g, ' $1 ')
+
+    const blankInBracketsMatcher = preHandledStr.match(/[\(（][^()（）]+( )[^()（）]+[\)）]/g)
+    if (blankInBracketsMatcher) {
+      for (const target of blankInBracketsMatcher) {
+        const handled = target.replace(/ /g, '/')
+        preHandledStr = preHandledStr.replace(target, handled)
+      }
+    }
+
+    let segments = preHandledStr
+      .split(/[\s，。、：,.:]+/).filter(v => v)
 
     // 识别单号
     const idMather = segments[0].match(/\d+/)
@@ -407,7 +420,7 @@ export default class App extends Vue {
 
       const specialStatusMatcher = goodText.match(/[\(（](.+)[\)）]/)
       if (specialStatusMatcher) {
-        good.specialStatus = specialStatusMatcher[1]
+        good.specialStatus = specialStatusMatcher[1].replace('/', ' ')
         text = goodText.replace(/[\(（].+[\)）]/, '')
       }
 
