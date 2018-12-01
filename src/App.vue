@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <header>
+    <header v-if="!isMobile">
       <el-input placeholder="输入关键词搜索" v-model="keyword" class="input-with-select">
         <el-button slot="append" icon="el-icon-search"></el-button>
       </el-input>
@@ -28,7 +28,17 @@
       </div>
     </header>
 
+    <header v-if="isMobile">
+      <div></div>
+      <el-button
+        type="primary"
+        @click="$refs.scanner.open()">
+        扫码
+      </el-button>
+    </header>
+
     <el-table
+      v-if="!isMobile"
       :data="filteredTableData"
       @selection-change="onTableSelected"
       stripe
@@ -137,6 +147,36 @@
       </el-table-column>
     </el-table>
 
+    <el-table
+      v-if="isMobile"
+      :data="filteredTableData"
+      stripe
+      border
+      style="width: 100%">
+
+      <el-table-column
+        prop="originalText"
+        label="下单信息">
+      </el-table-column>
+
+      <el-table-column
+        width="80"
+        label="操作">
+        <template slot-scope="scope">
+          <!-- <el-button
+            @click="deleteOrder(scope.$index)"
+            size="small">
+            详情
+          </el-button> -->
+          <el-button
+            @click="$refs.picture.open(scope.row)"
+            size="small">
+            拍照
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+
     <el-pagination
       layout="total"
       :total="filteredTableData.length">
@@ -146,6 +186,16 @@
       ref="form"
       @create="onCreated"
       @save="onSaved"/>
+
+    <Picture
+      ref="picture"
+      @create="onCreated"
+      @save="onSaved"/>
+
+    <Scanner
+      ref="scanner"
+      @create="onCreated"
+      @save="onSaved"/>
   </div>
 </template>
 
@@ -153,11 +203,15 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { Good, Order as OrderInterface } from '../interfaces'
 import Order from './Order.vue'
+import Picture from './Picture.vue'
+import Scanner from './Scanner.vue'
 import XLSX from 'xlsx'
 
 @Component({
   components: {
-    Order
+    Order,
+    Picture,
+    Scanner
   }
 })
 export default class App extends Vue {
@@ -184,6 +238,18 @@ export default class App extends Vue {
         }
       }
     })
+  }
+
+  private get isMobile() {
+    const ua = navigator.userAgent
+
+    const ipad = ua.match(/(iPad).*OS\s([\d_]+)/)
+
+    const isIphone =!ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/)
+
+    const isAndroid = ua.match(/(Android)\s+([\d.]+)/)
+
+    return isIphone || isAndroid
   }
 
   private onCreated(order: OrderInterface) {
@@ -305,7 +371,7 @@ header
 
 html, body
   height 100%
-  min-width 800px
+  // min-width 800px
   padding 0
   margin 0
 </style>
