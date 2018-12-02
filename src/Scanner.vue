@@ -52,12 +52,14 @@ export default class App extends Vue {
 
   private init() {
     (this.state.inputStream as any).target = document.querySelector('#interactive')
+    alert(this.state.inputStream.target)
     Quagga.init(this.state, (err: any) => {
         if (err) {
-          console.info(err)
+          alert(err)
         }
         Quagga.start()
         Quagga.onProcessed((data: any) => {
+          alert(data)
           if (data && data.codeResult) {
             alert(data.codeResult.code)
             Quagga.stop()
