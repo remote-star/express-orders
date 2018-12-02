@@ -297,7 +297,7 @@ export default class App extends Vue {
   private async exportOrders() {
     const myHeaders = new Headers()
     myHeaders.append('Content-Type', 'application/json')
-    const result = await fetch('/api/export', {
+    const result = await fetch('/shop/api/export', {
       method: 'POST',
       body: JSON.stringify({
         orders: this.selectedOrders
@@ -320,7 +320,7 @@ export default class App extends Vue {
     //     confirmButtonText: '确定',
     //     cancelButtonText: '取消',
     //   })
-      window.open(location.origin + '/' + fileName)
+      window.open(location.origin + '/shop/' + fileName)
     }
 
   }
