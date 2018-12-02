@@ -47,7 +47,7 @@ export default class App extends Vue {
 
   public open() {
     this.dialogVisible = true
-    setTimeout(this.init)
+    setTimeout(this.init, 1000)
   }
 
   private init() {
