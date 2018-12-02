@@ -20,6 +20,10 @@ router.post('/api/export', async (ctx, next) => {
 })
 
 app
+  .use(async (ctx, next) => {
+    console.info(ctx)
+    await next()
+  })
   .use(BodyParser({
     formLimit: '10mb',
     jsonLimit: '10mb'
