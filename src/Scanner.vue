@@ -5,21 +5,7 @@
     :visible.sync="dialogVisible"
     width="80%">
 
-    <p>{{message}}</p>
-
-    <div class="button-area">
-      <input
-        placeholder="请输入内容"
-        type="file"
-        @change="onShot"
-        accept="image/*"
-        capture="camera" />
-
-      <el-button
-        class="fake">
-        拍照
-      </el-button>
-    </div>
+    <div id="interactive" class="viewport"></div>
 
   </el-dialog>
 </template>
@@ -32,53 +18,63 @@ import Quagga from 'quagga'
 @Component
 export default class App extends Vue {
   private dialogVisible = false
-  private message = '对准二维码拍照以识别单号'
+
+  private state = {
+    inputStream: {
+        type : "LiveStream",
+        constraints: {
+            width: {min: 640},
+            height: {min: 480},
+            facingMode: "environment",
+            aspectRatio: {min: 1, max: 2}
+        },
+        target: null
+    },
+    locator: {
+        patchSize: "medium",
+        halfSample: true
+    },
+    numOfWorkers: 2,
+    frequency: 10,
+    decoder: {
+        readers : [{
+            format: "code_128_reader",
+            config: {}
+        }]
+    },
+    locate: true
+}
 
   public open() {
     this.dialogVisible = true
+    setTimeout(this.init)
   }
 
-  private onShot(e: any) {
-    Quagga.decodeSingle({
-      inputStream: {
-        size: 800,
-        singleChannel: false
-      },
-      locator: {
-          patchSize: "medium",
-          halfSample: true
-      },
-      decoder: {
-          readers: [{
-              format: "code_128_reader",
-              config: {}
-          }]
-      },
-      locate: true,
-      src: URL.createObjectURL(e.target.files[0])
-    }, (result: any) => {
-      alert(JSON.stringify(result))
-      if (result.codeResult) {
-        this.message = result.codeResult.code
-      } else {
-        this.message = '未能成功解析，请重新拍照'
-      }
+  private init() {
+    (this.state.inputStream as any).target = document.querySelector('#interactive')
+    Quagga.init(this.state, (err: any) => {
+        if (err) {
+          console.info(err)
+        }
+        Quagga.start()
+        Quagga.onProcessed((data: any) => {
+          if (data && data.codeResult) {
+            alert(data.codeResult.code)
+            Quagga.stop()
+            this.dialogVisible = false
+          }
+        })
     })
   }
 }
 </script>
 
 <style scoped lang="stylus">
-.button-area
-  position relative
-  input
-    z-index 1
-    opacity 0
-    height 40px
-  .el-button.fake
-    position absolute
-    top 0
-    left 50%
-    transform translateX(-50%)
-    user-select none
+#interactive
+  width 100%
+  height 200px
+  >>> video
+    width 100%
+    height 100%
+
 </style>
