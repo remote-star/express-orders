@@ -47,19 +47,20 @@ export default class App extends Vue {
 
   public open() {
     this.dialogVisible = true
-    setTimeout(this.init, 1000)
+    setTimeout(this.init)
   }
 
   private init() {
-    (this.state.inputStream as any).target = document.querySelector('#interactive')
-    alert(this.state.inputStream.target)
+    let videoNode = document.querySelector('#interactive')
+    if (!videoNode) {
+      setTimeout(this.init)
+      return
+    }
+
+    (this.state.inputStream as any).target = videoNode
     Quagga.init(this.state, (err: any) => {
-        if (err) {
-          alert(err)
-        }
         Quagga.start()
         Quagga.onProcessed((data: any) => {
-          alert(data)
           if (data && data.codeResult) {
             alert(data.codeResult.code)
             Quagga.stop()
@@ -74,7 +75,7 @@ export default class App extends Vue {
 <style scoped lang="stylus">
 #interactive
   width 100%
-  height 200px
+  height 300px
   >>> video
     width 100%
     height 100%
